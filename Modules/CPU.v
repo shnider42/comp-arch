@@ -20,7 +20,7 @@ module CPU (clk, inst, memOut, PCvalue, aluRes, readData1, memRead_en, memWrite_
 	clock clk1(clk);
 
 	//Program Counter
-	//wire [31:0] PC_addr_in;              // input to PC (address)
+	wire [31:0] PC_addr_in;              // input to PC (address)
 	wire [31:0] PCvalue;
 	wire [31:0] pcAdd4;
 	PC PC1(PC_addr_in, PCvalue, rst, clk);
@@ -60,8 +60,8 @@ module CPU (clk, inst, memOut, PCvalue, aluRes, readData1, memRead_en, memWrite_
 	//wire [31:0] readData0;
 	wire [31:0] aluIn2;
 	wire [31:0] aluRes;
-	wire zero;
-	alu alu1(aluCtrlCode, readData0, aluIn2, aluRes, zero);
+	wire ALU_zero;
+	alu alu1(aluCtrlCode, readData0, aluIn2, aluRes, ALU_zero);
 
 	//Shift lefts
 	//jump shift left
@@ -76,7 +76,6 @@ module CPU (clk, inst, memOut, PCvalue, aluRes, readData1, memRead_en, memWrite_
 	shiftLeftBranch #(32) branchJumpShiftLeft(inst15_0_32, inst15_0_32_sl);
 
 	//branch and ALU_zero AND
-	wire ALU_zero;
 	wire branch_sel;
 	//andMod and1(ALU_zero, branch, branch_sel);
 	assign branch_sel = ALU_zero & branch_en;
@@ -87,17 +86,17 @@ module CPU (clk, inst, memOut, PCvalue, aluRes, readData1, memRead_en, memWrite_
 
 	//muxes
 	// regDest mux
-	mux21 #(5) regDestMux(inst[20:16], inst[15:11], regDest_en, writeReg);
+	mux21 #(5) regDestMux(inst[15:11], inst[20:16], regDest_en, writeReg);
 
 	// aluSrc mux
-	mux21 #(32) aluSrcMux(readData1, inst15_0_32, aluSrc_en, aluIn2);
+	mux21 #(32) aluSrcMux(inst15_0_32, readData1, aluSrc_en, aluIn2);
 
 	// branch mux
 	wire [31:0] jumpMuxIn0;
-	mux21 #(32) branchMux(pcAdd4, add_branch, branchSel, jumpMuxIn0);
+	mux21 #(32) branchMux(add_branch, pcAdd4, branch_sel, jumpMuxIn0);
 
 	// jump mux
-	mux21 #(32) jumpMux(jumpAddr, jumpMuxIn0, jump_en, PC_addr_in);
+	mux21 #(32) jumpMux(jumpAddr,jumpMuxIn0,jump_en, PC_addr_in);
 
 	// memToReg mux
 	mux21 #(32) memToRegMux(memOut, aluRes, memToReg_en, wb_data);

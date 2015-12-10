@@ -5,7 +5,7 @@
 `define NULL 0
 `timescale 1ns/100ps
 
-module Memory(
+module memory(
     inst_addr,
     instr,
 	data_addr,

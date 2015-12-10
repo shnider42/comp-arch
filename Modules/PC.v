@@ -10,11 +10,11 @@ module PC(PC_addr_in, PCvalue, rst, clk);
 	wire clk;
 	
 	always @(posedge clk) begin
-	if (rst == 1) begin
-		PCvalue <= 32'h00003000;
-	end else begin
-		PCvalue <= PC_addr_in;
-	end
+		if (rst == 1) begin
+			PCvalue <= 32'h00003000;
+		end else begin
+			PCvalue <= PC_addr_in;
+		end
 	end
 	
 	

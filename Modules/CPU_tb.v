@@ -15,17 +15,24 @@ module cpu_tb;
 	wire    [31:0] memOut;        //output from memory passed into mux
 	wire           clk;
 	
-	
 	clock clock1(clk);
 	CPU cpu1(clk, inst, memOut, PCvalue, aluRes, readData1, memRead_en, memWrite_en, rst);
 	memory mem1(PCvalue, inst, aluRes, readData1, memRead_en, memWrite_en, memOut);
 
+
+	
 	initial begin
 		rst = 1'b1;
 		#10;
 		rst = 1'b0;
 		
 		#2000; 
+	end
+	
+	always @(posedge clk)
+	begin
+		if (inst == 32'hfc000000)
+			$finish;
 	end
 	
 endmodule
