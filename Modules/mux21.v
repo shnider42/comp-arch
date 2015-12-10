@@ -3,11 +3,10 @@
 
 module mux21 (in0, in1, sel, out);
 	parameter width = 32;
-	input [width-1:0]in0;
-	input [width-1:0]in1;
+	input wire [width-1:0]in0;
+	input wire [width-1:0]in1;
 	input sel;
-	output [31:0]out;
-	reg out;
+	output reg [width-1:0]out;
 	
 	always@ (*)
 	begin

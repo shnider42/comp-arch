@@ -3,7 +3,7 @@
 `timescale 1 ns/100 ps
 
 module tb_mux21;
-	reg [1:0]in;
+	reg [1:0] in;
 	reg sel;
 	wire out;
 

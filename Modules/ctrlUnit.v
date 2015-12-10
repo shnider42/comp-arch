@@ -4,7 +4,7 @@
 
 module ctrlUnit(output reg regDest, jump, branch, memRead, memToReg, memWrite, aluSrc, regWrite,
                 output reg[1:0] aluOp,
-				input [5:0] opCode);
+				input wire [5:0] opCode);
 
 	always@(opCode)	
 	begin
@@ -48,7 +48,7 @@ module ctrlUnit(output reg regDest, jump, branch, memRead, memToReg, memWrite, a
 			begin
 				jump = 1;
 			end
-		end
+		endcase
 	end
 	
 endmodule

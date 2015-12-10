@@ -1,10 +1,10 @@
 //problem 4
 
-module alu( input[3:0] op, 
-            input[31:0] data0, 
-            input [31:0] data1, 
+module alu( input wire [3:0] op, 
+            input wire [31:0] data0, 
+            input wire [31:0] data1, 
             output reg[31:0] aluRes, 
-            output zero);
+            output reg zero);
   
   always @ ( * )
   begin
@@ -48,10 +48,10 @@ module alu( input[3:0] op,
       end
     endcase
     
-    if (aluRes)
-        zero == 0;
-    elseif(~aluRes)
-        zero == 1;
+    if (aluRes) begin
+        zero = 0;
+	end else if(~aluRes) begin
+        zero = 1;
     end
 
   end //end always
